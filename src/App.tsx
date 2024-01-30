@@ -1,24 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useEffect, useState } from "react";
 import './App.css';
+import GameBoard from "./components/GameBoard/gameboard";
+import OptionsMenu from "./components/OptionsMenu/optionsmenu";
 
 function App() {
+  const [numRows, setNumRows] = useState(9);
+  const [numCols, setNumCols] = useState(9);
+  const [numMines, setNumMines] = useState(10);
+  const [isNewGame, setIsNewGame] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-container">
+      <div className="app-title-row">
+        <h1>
+          Minesweeper
+        </h1>
+        <OptionsMenu
+          setNumRows={setNumRows}
+          setNumCols={setNumCols}
+          setNumMines={setNumMines}
+          setIsNewGame={setIsNewGame}
+        />
+      </div>
+
+      <GameBoard
+        numRows={numRows}
+        numCols={numCols}
+        numMines={numMines}
+        isNewGame={isNewGame}
+        setIsNewGame={setIsNewGame}
+      />
     </div>
   );
 }

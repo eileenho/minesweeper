@@ -1,0 +1,15 @@
+.gameboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.gameboard {
+  border: 1px solid gray;
+  margin: 24px;
+}
+
+.row {
+  display: flex;
+}

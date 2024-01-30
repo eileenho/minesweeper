@@ -1,0 +1,33 @@
+.cell {
+  height: 24px; 
+  width: 24px;
+  border: 2px outset #ececec;
+  margin: 0;
+  padding: 0;
+}
+
+.cell.isRevealed {
+  border: 1px solid #e6e3e3;
+  font-weight: 800;
+}
+
+.cell.isRevealed._1 { color: blue; }
+.cell.isRevealed._2 { color: green; }
+.cell.isRevealed._3 { color: red; }
+.cell.isRevealed._4 { color: darkblue; }
+.cell.isRevealed._5 { color: maroon; }
+.cell.isRevealed._6 { color: teal; }
+.cell.isRevealed._7 { color: black; }
+.cell.isRevealed._8 { color: darkgray; }
+
+.flag-image {
+  max-height: 14px;
+}
+
+.mine-image {
+  max-width: 24px;
+}
+
+.mine-image.red-background {
+  background-color: red;
+}

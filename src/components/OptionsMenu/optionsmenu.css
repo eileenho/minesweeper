@@ -1,0 +1,35 @@
+.options-menu {
+  position: relative;
+  padding: 24px;
+}
+
+.options-menu-list {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  background-color: white;
+  border: 1px solid black;
+  padding: 8px;
+  z-index: 1000;
+}
+
+.options-menu label {
+  padding: 4px;
+}
+
+.options-menu input[type="radio"] {
+  margin-right: 8px;
+}
+
+.options-menu-button {
+  cursor: pointer;
+  padding: 8px 16px;
+  border: 1px solid black;
+  width: 125px;
+}
+
+.custom-options {
+  display: flex;
+  flex-direction: column;
+}
