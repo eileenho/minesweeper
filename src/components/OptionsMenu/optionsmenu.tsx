@@ -23,11 +23,18 @@ const OptionsMenu = ({
 }: MenuProps) => {
   const menuRef = useRef(null);
 
-  const [selectedOption, setSelectedOption] = useState("beginner");
+  const [selectedOption, setSelectedOption] = useState(Options.Beginner);
   const [isOpen, setIsOpen] = useState(false);
   const [customRows, setCustomRows] = useState(9);
   const [customCols, setCustomCols] = useState(9);
   const [customMines, setCustomMines] = useState(10);
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -43,12 +50,20 @@ const OptionsMenu = ({
     }
   };
 
-  useEffect(() => {
-    document.addEventListener('click', handleClickOutside);
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
+  const onCustomRowsChange = (event) => {
+    setSelectedOption(Options.Custom);
+    setCustomRows(Number(event.target.value));
+  };
+
+  const onCustomColsChange = (event) => {
+    setSelectedOption(Options.Custom);
+    setCustomCols(Number(event.target.value));
+  };
+
+  const onCustomMinesChange = (event) => {
+    setSelectedOption(Options.Custom);
+    setCustomMines(Number(event.target.value));
+  };
 
   const onStartNewGame = () => {
     let rows, cols, mines;
@@ -109,7 +124,7 @@ const OptionsMenu = ({
                         value={customRows}
                         min={1}
                         max={50}
-                        onChange={(event) => setCustomRows(Number(event.target.value)) }
+                        onChange={onCustomRowsChange}
                       />
                       <label>Columns:</label>
                       <input
@@ -117,7 +132,7 @@ const OptionsMenu = ({
                         value={customCols}
                         min={1}
                         max={50}
-                        onChange={(event) => setCustomCols(Number(event.target.value)) }
+                        onChange={onCustomColsChange}
                       />
                       <label>Mines:</label>
                       <input
@@ -125,7 +140,7 @@ const OptionsMenu = ({
                         value={customMines}
                         min={1}
                         max={(customRows - 1) * (customCols - 1)}
-                        onChange={(event) => setCustomMines(Number(event.target.value)) }
+                        onChange={onCustomMinesChange}
                       />
                     </div>
                   </>
