@@ -8,6 +8,7 @@ const GameBoard = ({
   numRows,
   numCols,
   numMines,
+  isCatMode,
   isNewGame,
   setIsNewGame
 }: GameBoardProps) => {
@@ -251,6 +252,7 @@ const GameBoard = ({
         gameStatus={gameState.gameStatus}
         elapsedTime={gameState.elapsedTime}
         setIsNewGame={setIsNewGame}
+        isCatMode={isCatMode}
       />
 
       <div className="gameboard">
@@ -267,6 +269,7 @@ const GameBoard = ({
                     xCoord={x}
                     yCoord={y}
                     onDoubleClick={onDoubleClick}
+                    isCatMode={isCatMode}
                   />
                 );
               })}

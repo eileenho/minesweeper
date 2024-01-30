@@ -8,6 +8,11 @@ function App() {
   const [numCols, setNumCols] = useState(9);
   const [numMines, setNumMines] = useState(10);
   const [isNewGame, setIsNewGame] = useState(false);
+  const [isCatMode, setIsCatMode] = useState(false);
+
+  const onCatModeChange = () => {
+    setIsCatMode(!isCatMode);
+  }
 
   return (
     <div className="app-container">
@@ -21,12 +26,21 @@ function App() {
           setNumMines={setNumMines}
           setIsNewGame={setIsNewGame}
         />
+      <div>
+        <input
+          type="checkbox"
+          checked={isCatMode}
+          onChange={onCatModeChange}
+        />
+        <label htmlFor="catModeCheckbox">Enable Cat Mode</label>
       </div>
+    </div>
 
       <GameBoard
         numRows={numRows}
         numCols={numCols}
         numMines={numMines}
+        isCatMode={isCatMode}
         isNewGame={isNewGame}
         setIsNewGame={setIsNewGame}
       />

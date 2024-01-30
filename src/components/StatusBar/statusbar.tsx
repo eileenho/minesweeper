@@ -1,6 +1,10 @@
 import Smiley from '../../assets/minesweeper-smiley.png';
 import Sunglasses from '../../assets/minesweeper-sunglasses.png';
 import Dead from '../../assets/minesweeper-dead.png';
+import CatSmiley from '../../assets/cat-smiley.png';
+import CatDead from '../../assets/cat-dead.png';
+import CatSunglasses from '../../assets/cat-sunglasses.png';
+
 import { GameStatus } from '../../shared/constants';
 import './statusbar.css';
 
@@ -9,17 +13,18 @@ interface StatusBarProps {
   gameStatus: GameStatus;
   elapsedTime: number;
   setIsNewGame: Function;
+  isCatMode: boolean;
 }
 
-const StatusBar = ({ gameStatus, numRemainingMines, elapsedTime, setIsNewGame }: StatusBarProps) => {
+const StatusBar = ({ gameStatus, numRemainingMines, elapsedTime, setIsNewGame, isCatMode }: StatusBarProps) => {
   const getStatusImage = () => {
     switch (gameStatus) {
       case GameStatus.InProgress:
-        return Smiley;
+        return isCatMode ? CatSmiley : Smiley;
       case GameStatus.Lost:
-        return Dead;
+        return isCatMode ? CatDead : Dead;
       case GameStatus.Won:
-        return Sunglasses;
+        return isCatMode ? CatSunglasses : Sunglasses;
       default:
         return null;
     }

@@ -22,6 +22,7 @@ export interface GameBoardProps {
   numRows: number;
   numCols: number;
   numMines: number;
+  isCatMode: boolean;
   isNewGame: boolean;
   setIsNewGame: (isNewGame: boolean) => void;
 }
