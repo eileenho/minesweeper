@@ -22,12 +22,19 @@ const OptionsMenu = ({
   setIsNewGame
 }: MenuProps) => {
   const menuRef = useRef(null);
-
   const [selectedOption, setSelectedOption] = useState(Options.Beginner);
   const [isOpen, setIsOpen] = useState(false);
-  const [customRows, setCustomRows] = useState(9);
-  const [customCols, setCustomCols] = useState(9);
-  const [customMines, setCustomMines] = useState(10);
+  const [customRows, setCustomRows] = useState("");
+  const [customCols, setCustomCols] = useState("");
+  const [customMines, setCustomMines] = useState("");
+  const [isValidRows, setIsValidRows] = useState(true);
+  const [isValidCols, setIsValidCols] = useState(true);
+  const [isValidMines, setIsValidMines] = useState(true);
+
+  const maxRows = 50;
+  const maxCols = 50;
+  const maxMines = 1000;
+  const minCustomValue = 0;
 
   useEffect(() => {
     document.addEventListener('click', handleClickOutside);
@@ -42,6 +49,14 @@ const OptionsMenu = ({
 
   const onSelectOption = (event) => {
     setSelectedOption(event.target.value);
+    
+    // reset custom options
+    setCustomRows("");
+    setCustomCols("");
+    setCustomMines("");
+    setIsValidRows(true);
+    setIsValidCols(true);
+    setIsValidMines(true);
   };
 
   const handleClickOutside = (event) => {
@@ -51,19 +66,41 @@ const OptionsMenu = ({
   };
 
   const onCustomRowsChange = (event) => {
-    setSelectedOption(Options.Custom);
-    setCustomRows(Number(event.target.value));
+    const value = event.target.value.trim();
+    setCustomRows(value);
+    const isValid = isValidCustomInput(value, minCustomValue, maxRows);
+    setIsValidRows(isValid);
   };
 
   const onCustomColsChange = (event) => {
-    setSelectedOption(Options.Custom);
-    setCustomCols(Number(event.target.value));
+    const value = event.target.value.trim();
+    setCustomCols(value);
+    const isValid = isValidCustomInput(value, minCustomValue, maxCols);
+    setIsValidCols(isValid);
   };
 
   const onCustomMinesChange = (event) => {
-    setSelectedOption(Options.Custom);
-    setCustomMines(Number(event.target.value));
+    const value = event.target.value.trim();
+    setCustomMines(value);
+    const isValid = isValidCustomInput(value, minCustomValue, maxMines);
+    setIsValidMines(isValid);
   };
+
+  const isValidCustomInput = (selectedValue, min, max) => {
+    if (selectedValue === "") {
+      return true; // Allow empty value
+    }
+    const numValue = parseInt(selectedValue, 10);
+    return !isNaN(numValue) && numValue >= min && numValue <= max;
+  }
+
+  const isStartDisabled = () => {
+    if (selectedOption === Options.Custom && (!customCols || !customRows || !customMines || !isValidCols || !isValidRows || !isValidMines)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   const onStartNewGame = () => {
     let rows, cols, mines;
@@ -85,9 +122,9 @@ const OptionsMenu = ({
         mines = 99;
         break;
       case Options.Custom:
-        rows = customRows;
-        cols = customCols;
-        mines = customMines;
+        rows = parseInt(customRows, 10);
+        cols = parseInt(customCols, 10);
+        mines = parseInt(customMines, 10);
         break;
       default:
         return; 
@@ -117,39 +154,50 @@ const OptionsMenu = ({
               />
                 {option === Options.Custom ? (
                   <>{option}
-                    <div className="custom-options">
-                      <label>Rows:</label>
-                      <input
-                        type="number"
-                        value={customRows}
-                        min={1}
-                        max={50}
-                        onChange={onCustomRowsChange}
-                      />
-                      <label>Columns:</label>
-                      <input
-                        type="number"
-                        value={customCols}
-                        min={1}
-                        max={50}
-                        onChange={onCustomColsChange}
-                      />
-                      <label>Mines:</label>
-                      <input
-                        type="number"
-                        value={customMines}
-                        min={1}
-                        max={(customRows - 1) * (customCols - 1)}
-                        onChange={onCustomMinesChange}
-                      />
-                    </div>
+                    {selectedOption === Options.Custom && 
+                      <div className="custom-options">
+                        <label>Rows (max 50):</label>
+                        <input
+                          type="number"
+                          value={customRows}
+                          min={minCustomValue}
+                          max={maxRows}
+                          onChange={onCustomRowsChange}
+                          className={!isValidRows && customRows ? 'error' : ''}
+                        />
+                        <label>Columns (max 50):</label>
+                        <input
+                          type="number"
+                          value={customCols}
+                          min={minCustomValue}
+                          max={maxCols}
+                          onChange={onCustomColsChange}
+                          className={!isValidCols && customCols ? 'error' : ''}
+                        />
+                        <label>Mines (max 1000):</label>
+                        <input
+                          type="number"
+                          value={customMines}
+                          min={minCustomValue}
+                          max={maxMines}
+                          onChange={onCustomMinesChange}
+                          className={!isValidMines && customMines ? 'error' : ''}
+                        />
+                      </div>
+                    }
                   </>
                 ) : (
                   option
                 )}
             </label>
           ))}
-          <button className="options-menu-button" onClick={onStartNewGame}>Start</button>
+          <button
+            className="options-menu-button"
+            onClick={onStartNewGame}
+            disabled={isStartDisabled()}
+          >
+            Start
+          </button>
         </div>
       )}
     </div>

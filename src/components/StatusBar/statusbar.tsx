@@ -36,7 +36,7 @@ const StatusBar = ({ gameStatus, numRemainingMines, elapsedTime, setIsNewGame, i
         {`Remaining mines: ${numRemainingMines}`}
       </h2>
       <button onClick={() => setIsNewGame(true)}>
-        <img src={getStatusImage()} alt={`${gameStatus} image`} className="statusbar-image" />
+        <img src={getStatusImage()} alt={`${gameStatus}`} className="statusbar-image" />
       </button>
       <h2 className="status-text">
         {`Elapsed time: ${elapsedTime}`}
